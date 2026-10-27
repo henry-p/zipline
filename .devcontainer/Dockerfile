@@ -24,3 +24,17 @@ RUN python3 -c "import sys; assert sys.version_info[:3] == (3, 13, 18)" \
  && python3 -m pip install --no-cache-dir -r /tmp/requirements-security.txt \
  && python3 -m pip check
 USER vscode
+
+
+FROM development AS validation
+USER root
+WORKDIR /src
+COPY . ./
+ENV SETUPTOOLS_SCM_PRETEND_VERSION=3.2.1
+RUN python3 -m pip install --no-cache-dir --no-deps . \
+    && mkdir /evidence && python3 -m pip freeze > /evidence/installed.txt
+RUN --network=none python3 -m pytest -q tests/finance tests/test_algorithm.py tests/test_assets.py tests/utils/test_calendar_utils.py --junitxml=/evidence/tests.xml > /evidence/tests.log 2>&1 || { tail -n 120 /evidence/tests.log; exit 1; }
+RUN tail -n 5 /evidence/tests.log
+
+FROM scratch AS evidence
+COPY --from=validation /evidence/ /evidence/

@@ -2,7 +2,8 @@
   "name": "Zipline Python 3.13",
   "build": {
     "dockerfile": "Dockerfile",
-    "context": ".."
+    "context": "..",
+    "target": "development"
   },
   "remoteUser": "vscode",
   "postCreateCommand": "python3 -m pip install --user --no-deps -e .",
