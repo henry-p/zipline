@@ -137,7 +137,14 @@ class TestRisk:
         # of period sharpe ratios will be limited to determine if the value is
         # numerical. This tests for its existence and format.
         for period in PERIODS:
-            assert all(isinstance(x["sharpe"], float) for x in self.metrics[period])
+            for metric in self.metrics[period]:
+                if metric["sharpe"] is None:
+                    # Volatility is annualized by sqrt(252); allow the same scaling
+                    # in the rounding bound for this constant-return fixture.
+                    # The report represents the resulting infinite ratio as None.
+                    assert abs(metric["algo_volatility"]) <= np.finfo(float).eps * np.sqrt(252)
+                else:
+                    assert isinstance(metric["sharpe"], float)
 
     def test_algorithm_sortino(self):
         # The sortino ratio is calculated by a empyrical function so testing

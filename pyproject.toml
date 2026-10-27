@@ -57,7 +57,7 @@ dependencies = [
     'patsy >=0.4.0',
     'python-dateutil >=2.4.2',
     'pytz >=2018.5',
-    'requests >=2.9.1',
+    'requests >=2.33.0',
     'scipy >=0.17.1',
     'six >=1.10.0',
     'sqlalchemy >=2',
@@ -76,7 +76,7 @@ documentation = 'https://zipline.ml4trading.io'
 
 [build-system]
 requires = [
-    'setuptools>=42.0.0',
+    'setuptools>=84.1.0',
     "setuptools_scm[toml]>=6.2",
     'wheel>=0.36.0',
     'Cython>=0.29.21,<3.2.0',
@@ -90,7 +90,7 @@ build-backend = 'setuptools.build_meta'
 [project.optional-dependencies]
 test = [
     'tox',
-    'pytest>=7.2.0',
+    'pytest>=9.1.1',
     'pytest-cov >=3.0.0',
     'pytest-xdist >=2.5.0',
     'pytest-timeout >=1.4.2',
@@ -111,6 +111,7 @@ test = [
 
 dev = [
     'pre-commit >=2.12.1',
+    'TA-Lib>=0.8.2',
     'Cython>=0.29.21',
     'ruff>=0.11.12',
     'mypy>=1.10.0',
